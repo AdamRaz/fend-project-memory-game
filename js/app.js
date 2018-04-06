@@ -46,15 +46,19 @@ cardDeck.innerHTML = '';
 
 cardDeck.innerHTML = cardHtml;
 // console.log (cardDeck);
+let listOpenCards = [];
+let OpenCardElements = [];
 function showCard(clickEvent) {
+    //AR - need to check if card is actually a card - bug!
+
     // console.log(clickEvent.target);
     let cardClicked = clickEvent.target;
     cardClicked.classList.add("open", "show");
     // console.log(cardClicked.classList)
     // console.log(cardClicked.innerHTML)
     let cardName = cardClicked.querySelector('i').classList[1];
-    console.log(cardName);
-
+    // console.log(cardName);
+    checkCard(cardName, cardClicked);
     //listOpenCards
 }
 
@@ -63,15 +67,57 @@ function hideCard(clickEvent) {
     clickEvent.target.classList.remove("open", "show");
 
 }
+function lockOpenCards(OpenCardElements) {
+    //lock somehow
+    OpenCardElements[0].classList.add("matched");
+    OpenCardElements[1].classList.add("matched");
+    console.log(`1st element classes are now: ${OpenCardElements[0].classList}`);
+
+    // //reset list
+    // OpenCardElements = [];
+    // listOpenCards = []; 
+    // console.log("card list cleared");
+    // console.log(listOpenCards);
+    // console.log(OpenCardElements);
+    //ref - https://stackoverflow.com/questions/1232040/how-do-i-empty-an-array-in-javascript
+}
+
+function checkCard(cardName, cardClicked) {
+    console.log(cardName);
+    listOpenCards.push(cardName);
+    OpenCardElements.push(cardClicked);
+    if (listOpenCards.length == 2) {
+        if (listOpenCards[0] === listOpenCards[1]) {
+            console.log("matching cards!");
+            lockOpenCards(OpenCardElements);
+            listOpenCards = []; 
+            OpenCardElements = [];
+        } else {
+            console.log("no match");
+            OpenCardElements[0].classList.remove("open", "show");
+            OpenCardElements[1].classList.remove("open", "show");
+            listOpenCards = []; 
+            OpenCardElements = [];
+            console.log("card lists cleared");
+            console.log(listOpenCards);
+            console.log(OpenCardElements);
+
+        }
+        // console.log("bingo!");
+    }
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
  *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ * 
  *  - if the list already has another card, check to see if the two cards match
  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ * 
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 cardDeck.addEventListener('click', showCard);
 
+//AR - could lock cards in place by capturing click events on the cards? capture mode versus bubbling?
