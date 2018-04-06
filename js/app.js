@@ -1,6 +1,9 @@
 /*
  * Create a list that holds all of your cards
  */
+let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf", "diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf"];
+const cardDeck = document.querySelector('.deck');
+// console.log (cardDeck);
 
 
 /*
@@ -10,7 +13,9 @@
  *   - add each card's HTML to the page
  */
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+
+
+ // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -25,6 +30,22 @@ function shuffle(array) {
     return array;
 }
 
+
+shuffle(cards);
+
+// AR - following isntrucitons above to create HTML each time... 
+// but could also append to pre-existing list of li class="card" elements?
+let cardHtml = '';
+for (const card of cards) {
+    // console.log(`this card is ${card}`);
+    cardHtml += `<li class="card"><i class="fa fa-${card}"></i></li>`;
+}
+// console.log(`the card HTML is ${cardHtml}`);
+
+cardDeck.innerHTML = '';
+
+cardDeck.innerHTML = cardHtml;
+// console.log (cardDeck);
 
 /*
  * set up the event listener for a card. If a card is clicked:
