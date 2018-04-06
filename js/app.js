@@ -50,18 +50,21 @@ cardDeck.innerHTML = cardHtml;
 let listOpenCards = [];
 let OpenCardElements = [];
 function showCard(clickEvent) {
-    moveCounter.innerHTML++
+
     //AR - need to check if card is actually a card - bug!
 
     // console.log(clickEvent.target);
     let cardClicked = clickEvent.target;
-    cardClicked.classList.add("open", "show");
-    // console.log(cardClicked.classList)
-    // console.log(cardClicked.innerHTML)
-    let cardName = cardClicked.querySelector('i').classList[1];
-    // console.log(cardName);
-    checkCard(cardName, cardClicked);
-    //listOpenCards
+    if (cardClicked.classList.contains("card")) {
+        moveCounter.innerHTML++
+        cardClicked.classList.add("open", "show");
+        // console.log(cardClicked.classList)
+        // console.log(cardClicked.innerHTML)
+        let cardName = cardClicked.querySelector('i').classList[1];
+        // console.log(cardName);
+        checkCard(cardName, cardClicked);
+        //listOpenCards
+    }
 }
 
 function hideCard(OpenCardElements) {
