@@ -4,6 +4,8 @@
 let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf", "diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf"];
 const cardDeck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
+const completeText = document.querySelector('.complete');
+let matchCounter = 0;
 // console.log (cardDeck);
 
 
@@ -94,9 +96,13 @@ function checkCard(cardName, cardClicked) {
     if (listOpenCards.length == 2) {
         if (listOpenCards[0] === listOpenCards[1]) {
             console.log("matching cards!");
+            matchCounter++;
             lockOpenCards(OpenCardElements);
             listOpenCards = []; 
             OpenCardElements = []; //can switch to .length = 0;
+            if (matchCounter === 8) {
+                completeText.textContent = "Well done! Completed in: ";
+            }
         } else {
             console.log("no match");
             hideCard(OpenCardElements);
