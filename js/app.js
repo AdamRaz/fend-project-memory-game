@@ -46,7 +46,23 @@ cardDeck.innerHTML = '';
 
 cardDeck.innerHTML = cardHtml;
 // console.log (cardDeck);
+function showCard(clickEvent) {
+    // console.log(clickEvent.target);
+    let cardClicked = clickEvent.target;
+    cardClicked.classList.add("open", "show");
+    // console.log(cardClicked.classList)
+    // console.log(cardClicked.innerHTML)
+    let cardName = cardClicked.querySelector('i').classList[1];
+    console.log(cardName);
 
+    //listOpenCards
+}
+
+function hideCard(clickEvent) {
+    // console.log(clickEvent.target);
+    clickEvent.target.classList.remove("open", "show");
+
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -57,3 +73,5 @@ cardDeck.innerHTML = cardHtml;
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+cardDeck.addEventListener('click', showCard);
+
