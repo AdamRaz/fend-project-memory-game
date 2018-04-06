@@ -3,6 +3,7 @@
  */
 let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf", "diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf"];
 const cardDeck = document.querySelector('.deck');
+const moveCounter = document.querySelector('.moves');
 // console.log (cardDeck);
 
 
@@ -49,6 +50,7 @@ cardDeck.innerHTML = cardHtml;
 let listOpenCards = [];
 let OpenCardElements = [];
 function showCard(clickEvent) {
+    moveCounter.innerHTML++
     //AR - need to check if card is actually a card - bug!
 
     // console.log(clickEvent.target);
@@ -115,6 +117,7 @@ function checkCard(cardName, cardClicked) {
  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
  * 
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ * 
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 cardDeck.addEventListener('click', showCard);
