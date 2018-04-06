@@ -62,10 +62,10 @@ function showCard(clickEvent) {
     //listOpenCards
 }
 
-function hideCard(clickEvent) {
+function hideCard(OpenCardElements) {
     // console.log(clickEvent.target);
-    clickEvent.target.classList.remove("open", "show");
-
+    OpenCardElements[0].classList.remove("open", "show");
+    OpenCardElements[1].classList.remove("open", "show");
 }
 function lockOpenCards(OpenCardElements) {
     //lock somehow
@@ -91,11 +91,10 @@ function checkCard(cardName, cardClicked) {
             console.log("matching cards!");
             lockOpenCards(OpenCardElements);
             listOpenCards = []; 
-            OpenCardElements = [];
+            OpenCardElements = []; //can switch to .length = 0;
         } else {
             console.log("no match");
-            OpenCardElements[0].classList.remove("open", "show");
-            OpenCardElements[1].classList.remove("open", "show");
+            hideCard(OpenCardElements);
             listOpenCards = []; 
             OpenCardElements = [];
             console.log("card lists cleared");
