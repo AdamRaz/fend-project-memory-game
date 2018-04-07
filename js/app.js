@@ -5,11 +5,21 @@ let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "b
 const cardDeck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
 const completeText = document.querySelector('.complete');
+const starList = document.querySelector('.stars');
+const threeStars = `<li><i class="fa fa-star"></i></li>
+<li><i class="fa fa-star"></i></li>
+<li><i class="fa fa-star"></i></li>`;
+const twoStars = `<li><i class="fa fa-star"></i></li>
+<li><i class="fa fa-star"></i></li>
+<li><i class="fa fa-star-o"></i></li>`;
+const oneStar = `<li><i class="fa fa-star"></i></li>
+<li><i class="fa fa-star-o"></i></li>
+<li><i class="fa fa-star-o"></i></li>`;
 let matchCounter = 0;
 let startTime = 0;
 let endTime = 0;
 // console.log (cardDeck);
-
+starList.innerHTML = threeStars;
 
 /*
  * Display the cards on the page
@@ -62,7 +72,13 @@ function showCard(clickEvent) {
     // console.log(clickEvent.target);
     let cardClicked = clickEvent.target;
     if ((cardClicked.classList.contains("card")) && !(cardClicked.classList.contains("open")) ) {
-        moveCounter.innerHTML++
+        moveCounter.innerHTML++;
+        let moveCount = moveCounter.innerHTML;
+        if (moveCount >= 50) {
+            starList.innerHTML = oneStar;
+        } else if (moveCount >= 35) {
+            starList.innerHTML = twoStars;
+        }
         cardClicked.classList.add("open", "show");
         // console.log(cardClicked.classList)
         // console.log(cardClicked.innerHTML)
