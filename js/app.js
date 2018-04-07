@@ -18,6 +18,7 @@ const oneStar = `<li><i class="fa fa-star"></i></li>
 let matchCounter = 0;
 let startTime = 0;
 let endTime = 0;
+let startGame = 0;
 // console.log (cardDeck);
 starList.innerHTML = threeStars;
 
@@ -27,6 +28,7 @@ starList.innerHTML = threeStars;
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+let seconds = 0;
 
 
 
@@ -64,14 +66,17 @@ cardDeck.innerHTML = cardHtml;
 let listOpenCards = [];
 let OpenCardElements = [];
 function showCard(clickEvent) {
-    if (startTime === 0) {
-        startTime = performance.now().toFixed(0);
-    }
+
     //AR - need to check if card is actually a card - bug!
 
     // console.log(clickEvent.target);
     let cardClicked = clickEvent.target;
     if ((cardClicked.classList.contains("card")) && !(cardClicked.classList.contains("open")) ) {
+        if (startTime === 0) {
+            startTime = performance.now().toFixed(0);
+        }
+        console.log(`startGame is ${startGame}`);
+        
         moveCounter.innerHTML++;
         let moveCount = moveCounter.innerHTML;
         if (moveCount >= 50) {
@@ -85,7 +90,28 @@ function showCard(clickEvent) {
         let cardName = cardClicked.querySelector('i').classList[1];
         // console.log(cardName);
         checkCard(cardName, cardClicked);
+        console.log(`matchCounter is ${matchCounter}`);
         //listOpenCards
+        // below matchCounter check must be here as match Counter is incremented in checkCard function!
+        if ((startGame === 0) && (matchCounter < 8)) {
+            let interval = setInterval(function() {
+                document.querySelector('.timer').innerHTML = ++seconds;
+                // console.log(`time is ${seconds}`);
+                // console.log(`startGame is ${startGame}`);
+                if ((matchCounter === 8) && (startGame === 1)) {
+                    document.querySelector('.timer').innerHTML = `Your time is ${seconds}`;
+                    console.log(`interval cleared`);
+                    clearInterval(interval);
+                    
+                    // startGame = 0;
+                    // AR move the clear interval to one 'endgame function'
+                    // ref - https://stackoverflow.com/questions/9989285/javascript-countdown-timer-and-display-text
+                }
+            }, 1000);
+            startGame = 1;
+        }
+        
+
     }
 }
 
@@ -98,7 +124,7 @@ function lockOpenCards(OpenCardElements) {
     //lock somehow
     OpenCardElements[0].classList.add("matched");
     OpenCardElements[1].classList.add("matched");
-    console.log(`1st element classes are now: ${OpenCardElements[0].classList}`);
+    // console.log(`1st element classes are now: ${OpenCardElements[0].classList}`);
 
     // //reset list
     // OpenCardElements = [];
@@ -117,7 +143,7 @@ function checkCard(cardName, cardClicked) {
     OpenCardElements.push(cardClicked);
     if (listOpenCards.length == 2) {
         if (listOpenCards[0] === listOpenCards[1]) {
-            console.log("matching cards!");
+            // console.log("matching cards!");
             matchCounter++;
             lockOpenCards(OpenCardElements);
             listOpenCards = []; 
@@ -130,13 +156,16 @@ function checkCard(cardName, cardClicked) {
                 completeText.textContent = `Well done! Completed in ${finishTime}s and `;
             }
         } else {
-            console.log("no match");
-            hideCard(OpenCardElements);
-            listOpenCards = []; 
-            OpenCardElements = [];
-            console.log("card lists cleared");
-            console.log(listOpenCards);
-            console.log(OpenCardElements);
+            setTimeout(function() {
+                // console.log("no match");
+                hideCard(OpenCardElements);
+                listOpenCards = []; 
+                OpenCardElements = [];
+                // console.log("card lists cleared");
+                // console.log(listOpenCards);
+                // console.log(OpenCardElements);
+            }, 350) //this timer seems to allow a bug when clicks are too fast
+
 
         }
         // console.log("bingo!");
@@ -157,4 +186,14 @@ function checkCard(cardName, cardClicked) {
  */
 cardDeck.addEventListener('click', showCard);
 
-//AR - could lock cards in place by capturing click events on the cards? capture mode versus bubbling?
+//AR - could lock cards in
+
+
+// resources used
+/*
+https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+
+
+
+*/
