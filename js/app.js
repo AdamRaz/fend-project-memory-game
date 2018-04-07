@@ -6,6 +6,7 @@ const cardDeck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
 const completeText = document.querySelector('.complete');
 const starList = document.querySelector('.stars');
+const restartButton = document.querySelector('.restart');
 const threeStars = `<li><i class="fa fa-star"></i></li>
 <li><i class="fa fa-star"></i></li>
 <li><i class="fa fa-star"></i></li>`;
@@ -21,7 +22,8 @@ let endTime = 0;
 let startGame = 0;
 // console.log (cardDeck);
 starList.innerHTML = threeStars;
-
+let listOpenCards = [];
+let OpenCardElements = [];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -47,24 +49,26 @@ function shuffle(array) {
     return array;
 }
 
+function setGame() {
+    shuffle(cards);
 
-shuffle(cards);
+    // AR - following isntrucitons above to create HTML each time... 
+    // but could also append to pre-existing list of li class="card" elements?
+    let cardHtml = '';
+    for (const card of cards) {
+        // console.log(`this card is ${card}`);
+        cardHtml += `<li class="card"><i class="fa fa-${card}"></i></li>`;
+    }
+    // console.log(`the card HTML is ${cardHtml}`);
+    
+    cardDeck.innerHTML = '';
+    
+    cardDeck.innerHTML = cardHtml;
+    // console.log (cardDeck);
 
-// AR - following isntrucitons above to create HTML each time... 
-// but could also append to pre-existing list of li class="card" elements?
-let cardHtml = '';
-for (const card of cards) {
-    // console.log(`this card is ${card}`);
-    cardHtml += `<li class="card"><i class="fa fa-${card}"></i></li>`;
 }
-// console.log(`the card HTML is ${cardHtml}`);
 
-cardDeck.innerHTML = '';
 
-cardDeck.innerHTML = cardHtml;
-// console.log (cardDeck);
-let listOpenCards = [];
-let OpenCardElements = [];
 function showCard(clickEvent) {
 
     //AR - need to check if card is actually a card - bug!
@@ -81,7 +85,7 @@ function showCard(clickEvent) {
         let moveCount = moveCounter.innerHTML;
         if (moveCount >= 50) {
             starList.innerHTML = oneStar;
-        } else if (moveCount >= 35) {
+        } else if (moveCount >= 30) {
             starList.innerHTML = twoStars;
         }
         cardClicked.classList.add("open", "show");
@@ -164,13 +168,27 @@ function checkCard(cardName, cardClicked) {
                 // console.log("card lists cleared");
                 // console.log(listOpenCards);
                 // console.log(OpenCardElements);
-            }, 350) //this timer seems to allow a bug when clicks are too fast
+            }, 250) //this timer seems to allow a bug when clicks are too fast
 
 
         }
         // console.log("bingo!");
     }
 }
+
+function restartGame() {
+    matchCounter = 0;
+    startTime = 0;
+    endTime = 0;
+    startGame = 0;
+    starList.innerHTML = threeStars;
+    moveCounter.innerHTML = 0;
+    seconds = 0;
+    completeText.textContent = '';
+    document.querySelector('.timer').innerHTML = '';
+    setGame();
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -185,9 +203,11 @@ function checkCard(cardName, cardClicked) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 cardDeck.addEventListener('click', showCard);
+restartButton.addEventListener('click', restartGame)
+setGame()
 
 //AR - could lock cards in
-
+//AR - bug: issue with unreliable interval timer... related to unrealiable clicks?
 
 // resources used
 /*
