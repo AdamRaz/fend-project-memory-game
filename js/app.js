@@ -6,6 +6,8 @@ const cardDeck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
 const completeText = document.querySelector('.complete');
 let matchCounter = 0;
+let startTime = 0;
+let endTime = 0;
 // console.log (cardDeck);
 
 
@@ -52,7 +54,9 @@ cardDeck.innerHTML = cardHtml;
 let listOpenCards = [];
 let OpenCardElements = [];
 function showCard(clickEvent) {
-
+    if (startTime === 0) {
+        startTime = performance.now().toFixed(0);
+    }
     //AR - need to check if card is actually a card - bug!
 
     // console.log(clickEvent.target);
@@ -91,6 +95,8 @@ function lockOpenCards(OpenCardElements) {
 
 function checkCard(cardName, cardClicked) {
     console.log(cardName);
+
+    // console.log(`start time is ${startTime}, end time is ${endTime}`)
     listOpenCards.push(cardName);
     OpenCardElements.push(cardClicked);
     if (listOpenCards.length == 2) {
@@ -101,7 +107,11 @@ function checkCard(cardName, cardClicked) {
             listOpenCards = []; 
             OpenCardElements = []; //can switch to .length = 0;
             if (matchCounter === 8) {
-                completeText.textContent = "Well done! Completed in: ";
+                if (endTime === 0) { //AR - unecesary check?
+                    endTime = performance.now().toFixed(0);
+                }
+                let finishTime = ((endTime - startTime) / 1000).toFixed(1);
+                completeText.textContent = `Well done! Completed in ${finishTime}s and `;
             }
         } else {
             console.log("no match");
