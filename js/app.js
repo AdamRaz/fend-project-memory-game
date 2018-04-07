@@ -57,7 +57,7 @@ function showCard(clickEvent) {
 
     // console.log(clickEvent.target);
     let cardClicked = clickEvent.target;
-    if (cardClicked.classList.contains("card")) {
+    if ((cardClicked.classList.contains("card")) && !(cardClicked.classList.contains("open")) ) {
         moveCounter.innerHTML++
         cardClicked.classList.add("open", "show");
         // console.log(cardClicked.classList)
