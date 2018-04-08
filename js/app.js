@@ -7,6 +7,10 @@ const moveCounter = document.querySelector('.moves');
 const completeText = document.querySelector('.complete');
 const starList = document.querySelector('.stars');
 const restartButton = document.querySelector('.restart');
+const completionScreen = document.querySelector('.completionScreen');
+const completionScreenMessage = document.querySelector('.completionScreenMessage');
+const completeRestart = document.querySelector('.completeRestart');
+const completeStars = document.querySelector('.completeStars');
 const threeStars = `<li><i class="fa fa-star"></i></li>
 <li><i class="fa fa-star"></i></li>
 <li><i class="fa fa-star"></i></li>`;
@@ -20,6 +24,7 @@ let matchCounter = 0;
 let startTime = 0;
 let endTime = 0;
 let startGame = 0;
+let numberStars = 3;
 // console.log (cardDeck);
 starList.innerHTML = threeStars;
 let listOpenCards = [];
@@ -85,8 +90,10 @@ function showCard(clickEvent) {
         let moveCount = moveCounter.innerHTML;
         if (moveCount >= 50) {
             starList.innerHTML = oneStar;
+            numberStars = 1;
         } else if (moveCount >= 30) {
             starList.innerHTML = twoStars;
+            numberStars = 2;
         }
         cardClicked.classList.add("open", "show");
         // console.log(cardClicked.classList)
@@ -99,7 +106,7 @@ function showCard(clickEvent) {
         // below matchCounter check must be here as match Counter is incremented in checkCard function!
         if ((startGame === 0) && (matchCounter < 8)) {
             let interval = setInterval(function() {
-                document.querySelector('.timer').innerHTML = ++seconds;
+                document.querySelector('.timer').innerHTML = `time: ${++seconds}s`;
                 // console.log(`time is ${seconds}`);
                 // console.log(`startGame is ${startGame}`);
                 if ((matchCounter === 8) && (startGame === 1)) {
@@ -158,6 +165,11 @@ function checkCard(cardName, cardClicked) {
                 }
                 let finishTime = ((endTime - startTime) / 1000).toFixed(1);
                 completeText.textContent = `Well done! Completed in ${finishTime}s and `;
+                completionScreenMessage.textContent = `You finished in ${seconds} seconds, a rating of ${numberStars} out of 3 stars!`;
+                // let cloneStars = starList.cloneNode(true);
+                // completeStars.appendChild(cloneStars);
+                // completionScreen.style.cssText = "min-height: 720px;";
+                completionScreen.style.cssText = "z-index: 10; min-height: 740px;";
             }
         } else {
             setTimeout(function() {
@@ -185,7 +197,8 @@ function restartGame() {
     moveCounter.innerHTML = 0;
     seconds = 0;
     completeText.textContent = '';
-    document.querySelector('.timer').innerHTML = '';
+    document.querySelector('.timer').innerHTML = '0';
+    completionScreen.style.cssText = 'z-index: -10';
     setGame();
 }
 
@@ -204,6 +217,7 @@ function restartGame() {
  */
 cardDeck.addEventListener('click', showCard);
 restartButton.addEventListener('click', restartGame)
+completeRestart.addEventListener('click', restartGame)
 setGame()
 
 //AR - could lock cards in
@@ -213,7 +227,8 @@ setGame()
 /*
 https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
-
+https://css-tricks.com/almanac/properties/t/text-align/
+https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style
 
 
 */
