@@ -121,12 +121,3 @@ h1 {
     text-align: center;
     font-size: 1.5em;
 }
-
-/* .completeStars {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    margin: 0 5px 0 0;
-    list-style-type: none;
-} */
-/* remove clone and rebuild on completion page as cloning copies old CSS as well? */
