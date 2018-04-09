@@ -4,7 +4,7 @@
 let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf", "diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf"];
 const cardDeck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
-const completeText = document.querySelector('.complete');
+// const completeText = document.querySelector('.complete');
 const starList = document.querySelector('.stars');
 const restartButton = document.querySelector('.restart');
 const completionScreen = document.querySelector('.completionScreen');
@@ -21,8 +21,8 @@ const oneStar = `<li><i class="fa fa-star"></i></li>
 <li><i class="fa fa-star-o"></i></li>
 <li><i class="fa fa-star-o"></i></li>`;
 let matchCounter = 0;
-let startTime = 0;
-let endTime = 0;
+// let startTime = 0;
+// let endTime = 0;
 let startGame = 0;
 let numberStars = 3;
 // console.log (cardDeck);
@@ -81,10 +81,10 @@ function showCard(clickEvent) {
     // console.log(clickEvent.target);
     let cardClicked = clickEvent.target;
     if ((cardClicked.classList.contains("card")) && !(cardClicked.classList.contains("open")) ) {
-        if (startTime === 0) {
-            startTime = performance.now().toFixed(0);
-        }
-        console.log(`startGame is ${startGame}`);
+        // if (startTime === 0) {
+        //     startTime = performance.now().toFixed(0);
+        // }
+        // console.log(`startGame is ${startGame}`);
         
         moveCounter.innerHTML++;
         let moveCount = moveCounter.innerHTML;
@@ -110,8 +110,8 @@ function showCard(clickEvent) {
                 // console.log(`time is ${seconds}`);
                 // console.log(`startGame is ${startGame}`);
                 if ((matchCounter === 8) && (startGame === 1)) {
-                    document.querySelector('.timer').innerHTML = `Your time is ${seconds}`;
-                    console.log(`interval cleared`);
+                    // document.querySelector('.timer').innerHTML = `Your time is ${seconds}`;
+                    // console.log(`interval cleared`);
                     clearInterval(interval);
                     
                     // startGame = 0;
@@ -160,16 +160,17 @@ function checkCard(cardName, cardClicked) {
             listOpenCards = []; 
             OpenCardElements = []; //can switch to .length = 0;
             if (matchCounter === 8) {
-                if (endTime === 0) { //AR - unecesary check?
-                    endTime = performance.now().toFixed(0);
-                }
-                let finishTime = ((endTime - startTime) / 1000).toFixed(1);
-                completeText.textContent = `Well done! Completed in ${finishTime}s and `;
+                // if (endTime === 0) { //AR - unecessary... check?
+                //     endTime = performance.now().toFixed(0);
+                // }
+                // let finishTime = ((endTime - startTime) / 1000).toFixed(1);
+                // completeText.textContent = `Well done! Completed in ${finishTime}s and `;
                 completionScreenMessage.textContent = `You finished in ${seconds} seconds, a rating of ${numberStars} out of 3 stars!`;
                 // let cloneStars = starList.cloneNode(true);
                 // completeStars.appendChild(cloneStars);
                 // completionScreen.style.cssText = "min-height: 720px;";
                 completionScreen.style.cssText = "z-index: 10; min-height: 740px;";
+                // AR - should also stop the timer
             }
         } else {
             setTimeout(function() {
@@ -196,7 +197,7 @@ function restartGame() {
     starList.innerHTML = threeStars;
     moveCounter.innerHTML = 0;
     seconds = 0;
-    completeText.textContent = '';
+    // completeText.textContent = '';
     document.querySelector('.timer').innerHTML = '0';
     completionScreen.style.cssText = 'z-index: -10';
     setGame();
