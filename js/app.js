@@ -191,14 +191,14 @@ function checkCard(cardName, cardClicked) {
 
 function restartGame() {
     matchCounter = 0;
-    startTime = 0;
-    endTime = 0;
+    // startTime = 0;
+    // endTime = 0;
     startGame = 0;
     starList.innerHTML = threeStars;
     moveCounter.innerHTML = 0;
     seconds = 0;
     // completeText.textContent = '';
-    document.querySelector('.timer').innerHTML = '0';
+    document.querySelector('.timer').innerHTML = 'time: 0s';
     completionScreen.style.cssText = 'z-index: -10';
     setGame();
 }
@@ -221,7 +221,6 @@ restartButton.addEventListener('click', restartGame)
 completeRestart.addEventListener('click', restartGame)
 setGame()
 
-//AR - could lock cards in
 //AR - bug: issue with unreliable interval timer... related to unrealiable clicks?
 
 // resources used
