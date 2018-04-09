@@ -1,6 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
+// AR - declaring all main variables and selecting main elements to control
 let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf", "diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf"];
 const cardDeck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
@@ -10,6 +11,8 @@ const completionScreen = document.querySelector('.completionScreen');
 const completionScreenMessage = document.querySelector('.completionScreenMessage');
 const completeRestart = document.querySelector('.completeRestart');
 const completeStars = document.querySelector('.completeStars');
+const timer = document.querySelector('.timer');
+// AR - these HTML star blocks will be used to easily show different star ratings
 const threeStars = `<li><i class="fa fa-star"></i></li>
 <li><i class="fa fa-star"></i></li>
 <li><i class="fa fa-star"></i></li>`;
@@ -22,10 +25,12 @@ const oneStar = `<li><i class="fa fa-star"></i></li>
 let matchCounter = 0;
 let startGame = 0;
 let numberStars = 3;
-starList.innerHTML = threeStars;
+// AR - the below arrays will store data about cards the user clicks on
 let listOpenCards = [];
 let OpenCardElements = [];
 let seconds = 0;
+// AR - gameInterval is declared here to be a global variable and allow the interval to be easily cleared
+let gameInterval = undefined; 
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -48,9 +53,9 @@ function shuffle(array) {
     return array;
 }
 
+// AR - 
 function setGame() {
     shuffle(cards);
-    // AR - following isntrucitons above to create HTML each time... 
     let cardHtml = '';
     for (const card of cards) {
         cardHtml += `<li class="card"><i class="fa fa-${card}"></i></li>`;
@@ -59,6 +64,16 @@ function setGame() {
     cardDeck.innerHTML = cardHtml;
 }
 
+function timerControl (option) {
+    if (option === "start") {
+        gameInterval = setInterval(function() {
+            timer.innerHTML = `time: ${++seconds}s`;
+        }, 1000);
+    }
+    if (option === "stop") {
+        clearInterval(gameInterval);
+    }
+}
 
 function showCard(clickEvent) {
     let cardClicked = clickEvent.target;
@@ -77,13 +92,11 @@ function showCard(clickEvent) {
         checkCard(cardName, cardClicked);
         // below matchCounter check must be here at this point in the code as match Counter is incremented in checkCard function!
         if ((startGame === 0) && (matchCounter < 8)) {
-            let interval = setInterval(function() {
-                document.querySelector('.timer').innerHTML = `time: ${++seconds}s`;
-                if ((matchCounter === 8) && (startGame === 1)) {
-                    clearInterval(interval);
-                }
-            }, 1000);
+            timerControl("start");
             startGame = 1;
+        }
+        if ((matchCounter === 8) && (startGame === 1)) {
+            timerControl("stop");
         }
     }
 }
@@ -123,15 +136,13 @@ function checkCard(cardName, cardClicked) {
 
 function restartGame() {
     matchCounter = 0;
-    // startTime = 0;
-    // endTime = 0;
     startGame = 0;
     starList.innerHTML = threeStars;
     moveCounter.innerHTML = 0;
     seconds = 0;
-    // completeText.textContent = '';
     document.querySelector('.timer').innerHTML = 'time: 0s';
     completionScreen.style.cssText = 'z-index: -10';
+    timerControl("stop");
     setGame();
 }
 
