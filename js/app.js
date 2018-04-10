@@ -53,7 +53,7 @@ function shuffle(array) {
     return array;
 }
 
-// AR - 
+// AR - setGame function creates randomized HTML listing of cards
 function setGame() {
     shuffle(cards);
     let cardHtml = '';
@@ -64,6 +64,7 @@ function setGame() {
     cardDeck.innerHTML = cardHtml;
 }
 
+// AR - function to declare/start an interval function using global variable gameInterval
 function timerControl (option) {
     if (option === "start") {
         gameInterval = setInterval(function() {
@@ -75,6 +76,8 @@ function timerControl (option) {
     }
 }
 
+// AR - this is the main 'game loop' function, starting the game once a card is clicked, updating move counter, star rating, checking for matching cards.
+// AR - this function is only called if a card that is not currently open is clicked.
 function showCard(clickEvent) {
     let cardClicked = clickEvent.target;
     if ((cardClicked.classList.contains("card")) && !(cardClicked.classList.contains("open")) ) {
@@ -106,11 +109,13 @@ function hideCard(OpenCardElements) {
     OpenCardElements[0].classList.remove("open", "show");
     OpenCardElements[1].classList.remove("open", "show");
 }
+
 function lockOpenCards(OpenCardElements) {
     OpenCardElements[0].classList.add("matched");
     OpenCardElements[1].classList.add("matched");
 }
 
+// AR - compare cards once 2 seperate cards have been clicked on
 function checkCard(cardName, cardClicked) {
     listOpenCards.push(cardName);
     OpenCardElements.push(cardClicked);
@@ -118,8 +123,9 @@ function checkCard(cardName, cardClicked) {
         if (listOpenCards[0] === listOpenCards[1]) {
             matchCounter++;
             lockOpenCards(OpenCardElements);
+            // AR - card info arrays are now emptied
             listOpenCards = []; 
-            OpenCardElements = []; //can switch to .length = 0;
+            OpenCardElements = []; //could also set array.length = 0;
             if (matchCounter === 8) {
                 completionScreenMessage.textContent = `You finished in ${seconds} seconds, a rating of ${numberStars} out of 3 stars!`;
                 completionScreen.style.cssText = "z-index: 10; min-height: 740px;";
@@ -129,7 +135,7 @@ function checkCard(cardName, cardClicked) {
                 hideCard(OpenCardElements);
                 listOpenCards = []; 
                 OpenCardElements = [];
-            }, 250) //this timer seems to allow a bug when clicks are too fast
+            }, 250) // AR - this timer seems to allow a bug when clicks are too fast
         }
     }
 }
