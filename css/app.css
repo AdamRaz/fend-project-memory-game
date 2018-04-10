@@ -122,22 +122,12 @@ h1 {
     font-size: 1.5em;
 }
 
-@media screen and (max-device-width: 640px) {
+@media screen and (max-device-width: 960px) {
     .score-panel {
         font-size: 2em;
     }
 
     h1 {
-        font-size: 2em;
-    }
-  }
-  
-  @media screen and (max-device-width: 960px) {
-    .score-panel {
-        font-size: 1.5em;
-    }
-
-    h1 {
-        font-size: 1.5em;
+        font-size: 2.5em;
     }
   }
