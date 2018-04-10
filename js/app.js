@@ -4,21 +4,14 @@ const cardDeck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
 const starList = document.querySelector('.stars');
 const restartButton = document.querySelector('.restart');
-const completionScreen = document.querySelector('.completionScreen');
-const completionScreenMessage = document.querySelector('.completionScreenMessage');
-const completeRestart = document.querySelector('.completeRestart');
-const completeStars = document.querySelector('.completeStars');
+const completionScreen = document.querySelector('.completion-screen');
+const completionScreenMessage = document.querySelector('.completion-screen-message');
+const completeRestart = document.querySelector('.complete-restart');
 const timer = document.querySelector('.timer');
 // AR - these HTML star blocks will be used to easily show different star ratings
-const threeStars = `<li><i class="fa fa-star"></i></li>
-<li><i class="fa fa-star"></i></li>
-<li><i class="fa fa-star"></i></li>`;
-const twoStars = `<li><i class="fa fa-star"></i></li>
-<li><i class="fa fa-star"></i></li>
-<li><i class="fa fa-star-o"></i></li>`;
-const oneStar = `<li><i class="fa fa-star"></i></li>
-<li><i class="fa fa-star-o"></i></li>
-<li><i class="fa fa-star-o"></i></li>`;
+const threeStars = `<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li>`;
+const twoStars = `<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star-o"></i></li>`;
+const oneStar = `<li><i class="fa fa-star"></i></li><li><i class="fa fa-star-o"></i></li><li><i class="fa fa-star-o"></i></li>`;
 let matchCounter = 0;
 let startGame = 0;
 let numberStars = 3;
@@ -27,7 +20,7 @@ let listOpenCards = [];
 let OpenCardElements = [];
 let seconds = 0;
 // AR - gameInterval is declared here to be a global variable and allow the interval to be easily cleared
-let gameInterval = undefined; 
+let gameInterval = undefined;
 
  // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -83,7 +76,7 @@ function showCard(clickEvent) {
     // AR - get element clicked on
     let cardClicked = clickEvent.target;
     if ((cardClicked.classList.contains("card")) && !(cardClicked.classList.contains("open")) ) {
-        if ((startGame === 0) && (matchCounter < 8)) {
+        if (startGame === 0 && matchCounter < 8) {
             // AR - set of interval based timer only once - on initial card click
              timerControl("start");
              startGame = 1;
@@ -111,7 +104,7 @@ function lockOpenCards(OpenCardElements) {
 }
 
 function emptyCardInfo () {
-    listOpenCards = []; 
+    listOpenCards = [];
     OpenCardElements = [];  //could also set array.length = 0;
 }
 
@@ -170,4 +163,5 @@ https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
 https://css-tricks.com/almanac/properties/t/text-align/
 https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style
 https://stackoverflow.com/questions/1232040/how-do-i-empty-an-array-in-javascript
+https://www.w3schools.com/jsref/met_win_clearinterval.asp
 */

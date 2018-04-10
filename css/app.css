@@ -18,7 +18,7 @@ body {
 
 body {
     background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
-    font-family: 'Coda', cursive;
+    font-family: "Coda", cursive;
 }
 
 .container {
@@ -29,7 +29,7 @@ body {
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 300;
 }
 
@@ -108,7 +108,7 @@ h1 {
     cursor: pointer;
 }
 
-.completionScreen {
+.completion-screen {
     width: 660px;
     min-height: 620px;
     margin: 10px 0 0 0;
@@ -132,7 +132,7 @@ h1 {
         font-size: 2.75em;
     }
 
-    .completionScreen {
+    .completion-screen {
         font-size: 2em;
     }
   }
