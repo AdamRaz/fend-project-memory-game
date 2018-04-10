@@ -76,31 +76,35 @@ function timerControl (option) {
     }
 }
 
+function updateStars (moveCount) {
+    if (moveCount >= 50) {
+        starList.innerHTML = oneStar;
+        numberStars = 1;
+    } else if (moveCount >= 30) {
+        starList.innerHTML = twoStars;
+        numberStars = 2;
+    }
+}
+
 // AR - this is the main 'game loop' function, starting the game once a card is clicked, updating move counter, star rating, checking for matching cards.
 // AR - this function is only called if a card that is not currently open is clicked.
 function showCard(clickEvent) {
+    // AR - get element clicked on
     let cardClicked = clickEvent.target;
     if ((cardClicked.classList.contains("card")) && !(cardClicked.classList.contains("open")) ) {
+        if ((startGame === 0) && (matchCounter < 8)) {
+            // AR - set of interval based timer only once - on initial card click
+             timerControl("start");
+             startGame = 1;
+         }
         moveCounter.innerHTML++;
         let moveCount = moveCounter.innerHTML;
-        if (moveCount >= 50) {
-            starList.innerHTML = oneStar;
-            numberStars = 1;
-        } else if (moveCount >= 30) {
-            starList.innerHTML = twoStars;
-            numberStars = 2;
-        }
+        updateStars(moveCount);
         cardClicked.classList.add("open", "show");
+        // AR - get name/type of card by querying the i element
         let cardName = cardClicked.querySelector('i').classList[1];
         checkCard(cardName, cardClicked);
         // below matchCounter check must be here at this point in the code as match Counter is incremented in checkCard function!
-        if ((startGame === 0) && (matchCounter < 8)) {
-            timerControl("start");
-            startGame = 1;
-        }
-        if ((matchCounter === 8) && (startGame === 1)) {
-            timerControl("stop");
-        }
     }
 }
 // interval function adapted from - https://stackoverflow.com/questions/9989285/javascript-countdown-timer-and-display-text
@@ -115,27 +119,37 @@ function lockOpenCards(OpenCardElements) {
     OpenCardElements[1].classList.add("matched");
 }
 
-// AR - compare cards once 2 seperate cards have been clicked on
+function emptyCardInfo () {
+    listOpenCards = []; 
+    OpenCardElements = [];  //could also set array.length = 0;
+}
+
+function endGame () {
+    completionScreenMessage.textContent = `You finished in ${seconds} seconds, a rating of ${numberStars} out of 3 stars!`;
+    completionScreen.style.cssText = "z-index: 10; min-height: 740px;";
+    timerControl("stop");
+}
+
+// AR - compare cards once 2 seperate cards have been clicked on, if mathching, lock them in open state (with a 'matched' class). If no match, flip/close the cards.
 function checkCard(cardName, cardClicked) {
     listOpenCards.push(cardName);
     OpenCardElements.push(cardClicked);
     if (listOpenCards.length == 2) {
         if (listOpenCards[0] === listOpenCards[1]) {
+            // AR - cards match!
             matchCounter++;
             lockOpenCards(OpenCardElements);
             // AR - card info arrays are now emptied
-            listOpenCards = []; 
-            OpenCardElements = []; //could also set array.length = 0;
+            emptyCardInfo();
             if (matchCounter === 8) {
-                completionScreenMessage.textContent = `You finished in ${seconds} seconds, a rating of ${numberStars} out of 3 stars!`;
-                completionScreen.style.cssText = "z-index: 10; min-height: 740px;";
+                endGame();
             }
         } else {
+            // AR - timeout function to allow a short delay to look at the cards before they are hidden
             setTimeout(function() {
                 hideCard(OpenCardElements);
-                listOpenCards = []; 
-                OpenCardElements = [];
-            }, 250) // AR - this timer seems to allow a bug when clicks are too fast
+                emptyCardInfo();
+            }, 250) // AR - this timer seems to allow unexpected behaviour when timeout delay is too large or clicks are too fast
         }
     }
 }
@@ -149,8 +163,14 @@ function restartGame() {
     document.querySelector('.timer').innerHTML = 'time: 0s';
     completionScreen.style.cssText = 'z-index: -10';
     timerControl("stop");
+    emptyCardInfo();
     setGame();
 }
+
+cardDeck.addEventListener('click', showCard);
+restartButton.addEventListener('click', restartGame)
+completeRestart.addEventListener('click', restartGame)
+setGame()
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -165,19 +185,13 @@ function restartGame() {
  * 
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-cardDeck.addEventListener('click', showCard);
-restartButton.addEventListener('click', restartGame)
-completeRestart.addEventListener('click', restartGame)
-setGame()
 
-//AR - bug: issue with unreliable interval timer... related to unrealiable clicks?
 
-// resources used
+// AR - resources used
 /*
 https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
 https://css-tricks.com/almanac/properties/t/text-align/
 https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style
 https://stackoverflow.com/questions/1232040/how-do-i-empty-an-array-in-javascript
-
 */
