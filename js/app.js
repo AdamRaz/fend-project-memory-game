@@ -1,6 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
 // AR - declaring all main variables and selecting main elements to control
 let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf", "diamond", "paper-plane-o", "anchor", "bolt", "cube", "bicycle", "bomb", "leaf"];
 const cardDeck = document.querySelector('.deck');
@@ -31,12 +28,6 @@ let OpenCardElements = [];
 let seconds = 0;
 // AR - gameInterval is declared here to be a global variable and allow the interval to be easily cleared
 let gameInterval = undefined; 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
  // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -107,7 +98,7 @@ function showCard(clickEvent) {
         // below matchCounter check must be here at this point in the code as match Counter is incremented in checkCard function!
     }
 }
-// interval function adapted from - https://stackoverflow.com/questions/9989285/javascript-countdown-timer-and-display-text
+// AR - interval function adapted from - https://stackoverflow.com/questions/9989285/javascript-countdown-timer-and-display-text
 
 function hideCard(OpenCardElements) {
     OpenCardElements[0].classList.remove("open", "show");
@@ -149,7 +140,7 @@ function checkCard(cardName, cardClicked) {
             setTimeout(function() {
                 hideCard(OpenCardElements);
                 emptyCardInfo();
-            }, 250) // AR - this timer seems to allow unexpected behaviour when timeout delay is too large or clicks are too fast
+            }, 250) // AR - this timer seems to allow unexpected behaviour when timeout delay is too large ( >= 350ms) or clicks are too fast
         }
     }
 }
@@ -171,21 +162,6 @@ cardDeck.addEventListener('click', showCard);
 restartButton.addEventListener('click', restartGame)
 completeRestart.addEventListener('click', restartGame)
 setGame()
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- * 
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- * 
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- * 
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
 
 // AR - resources used
 /*
