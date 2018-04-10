@@ -87,7 +87,7 @@ h1 {
 
 .score-panel {
     text-align: left;
-    width: 345px;
+    width: 445px;
     margin-bottom: 10px;
 }
 
@@ -121,3 +121,23 @@ h1 {
     text-align: center;
     font-size: 1.5em;
 }
+
+@media screen and (max-device-width: 640px) {
+    .score-panel {
+        font-size: 2em;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+  }
+  
+  @media screen and (max-device-width: 960px) {
+    .score-panel {
+        font-size: 1.5em;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+  }
