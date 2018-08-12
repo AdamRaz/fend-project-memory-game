@@ -23,4 +23,5 @@ see app.js script file for code resources used
 app screens:
 
 ![image of memory game screen](./readme-img-1.PNG "memory game screen")
+
 ![image of memory game screen](./readme-img-2.PNG "memory game screen")
