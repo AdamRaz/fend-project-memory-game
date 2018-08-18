@@ -1,7 +1,12 @@
 # Memory Game Project
 
+A card matching web game
+
+## How to run/play
 **see the live page at this github pages link:** 
 https://adamraz.github.io/fend-project-memory-game/
+
+OR clone the project with `git clone <insert url here>` and open the index.html file in your browser
 
 ## Game description
 Match the cards!
